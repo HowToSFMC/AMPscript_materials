@@ -1,0 +1,32 @@
+%%[
+var @subscriberKey, @tier, @checkClaim, @couponCode, @couponExpiry
+
+set @subscriberKey = AttributeValue("_subscriberkey")
+set @tier = QueryParameter("tier")
+
+if (not empty(@subscriberKey) AND not empty(@tier)) then
+
+    set @checkClaim = Lookup("coupons", "couponCode", "subscriberKey", @subscriberKey, "couponTier", @tier)
+
+    if empty(@checkClaim) then 
+
+        set @couponCode = Lookup("coupons","couponCode","isClaimed", "false", "couponTier", @tier)
+        set @couponExpiry = DateAdd(Now(), 1, "M")
+        UpdateData("coupons", 1, "couponCode", @couponCode, "isClaimed", "true", "subscriberKey", @subscriberKey, "couponExpiry", @couponExpiry)
+        ]%%
+
+        Coupon code: %%=v(@couponCode)=%%
+        <br>
+        Coupon expiry date: %%=v(FormatDate(@couponExpiry,"s"))=%%
+
+    %%[ else ]%%
+
+    You have already claimed your coupon: %%=v(@checkClaim)=%%
+
+    %%[ endif ]%%
+
+%%[ else ]%%
+
+Missing parameters.
+
+%%[ endif ]%%

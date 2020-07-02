@@ -1,0 +1,72 @@
+/* three conditions - empty; points till none left; and coupon which we need to pass over a tier for */ 
+
+
+%%[ IF @displayPrompt1 == 'coupon' THEN ]%%
+  
+ <!-- use debug to check to see if the correct tier passed over for the coupon display on the landing page -->
+  %%[ IF @debug == 1 THEN ]%%
+  
+    <br>tier: %%=v(@tier)=%%
+
+  %%[ ENDIF ]%%
+
+  <tr>
+    <td><br><br>You've earned a coupon for tier 1: <br>
+      <!-- leave cpURL ID open to wait for it from zuzanna -->
+      <a href="%%=CloudPagesURL('','tier',@tier)=%%">%%__AdditionalEmailAttribute1%%</a>
+    </td>
+  </tr>
+
+  %%[ ELSEIF @displayPrompt1 == 'remainder' THEN ]%%
+
+  <tr>
+    <td><br><br>
+      You have to collect %%=Subtract(10,@rewardTier1)=%% more points to get a tier 1 reward.
+    </td>
+  </tr>
+
+  %%[ ELSE ]%%
+
+  <tr>
+    <td><br><br>
+      You do not have any reward points for tier 1.
+    </td>
+  </tr>
+
+%%[ ENDIF ]%%
+
+
+
+
+
+%%[ IF @displayPrompt2 == 'coupon' THEN ]%%
+
+  %%[ IF @debug == 1 THEN ]%%
+  
+    <br>tier: %%=v(@tier)=%%
+  
+  %%[ ENDIF ]%%
+
+  <tr>
+    <td><br><br>You've earned a coupon for tier 2: <br>
+      <a href="%%=CloudPagesURL('','tier',@tier)=%%">%%__AdditionalEmailAttribute1%%</a>
+    </td>
+  </tr>
+
+  %%[ ELSEIF @displayPrompt2 == 'remainder' THEN ]%%
+
+  <tr>
+    <td><br><br>
+      You have to collect %%=Subtract(10,@rewardTier2)=%% more points to get a tier 2 reward.
+    </td>
+  </tr>
+
+  %%[ ELSE ]%%
+
+  <tr>
+    <td><br><br>
+      You do not have any reward points for tier 2.
+    </td>
+  </tr>
+
+%%[ ENDIF ]%%

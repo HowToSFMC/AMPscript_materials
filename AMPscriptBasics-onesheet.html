@@ -1,0 +1,217 @@
+<!-- AMPscript Elements -->
+
+%%[ /* AMPscript block delimiters */
+var @email, @pet
+
+SET @email = AttributeValue('EmailAddress')
+SET @pet = AttributeValue('pet')
+
+IF Empty(@email) THEN 
+  SET @email = emailaddr
+ENDIF
+
+IF NOT Empty(@pet) THEN 
+  SET @favPet = @pet
+ELSEIF NOT Empty(@favPet) THEN
+  SET @favPet = Propercase(@favPet) 
+ELSE 
+  SET @favPet = "Tell us you at least like animals, please?"
+ENDIF
+
+]%%
+
+
+<td><!-- AMPscript inline delimiters --> 
+  %%=v(@email)=%%
+</td>
+
+
+<td><!-- Personalization Strings - Stand alone --> 
+  <ul> 
+    <li>%%firstname%%</li>
+    <li>%%emailaddr%%</li>
+  </ul>
+</td>
+
+
+%%[/* Personalization Strings - In AMPscript */
+
+  SET @firstName = firstname
+  SET @emailAddress = emailaddr
+
+]%%
+
+
+%%[ /* Commonly used personalization strings */
+ 
+ SET @emailAddress = emailaddr
+ SET @emailName = emailname_ /* commonly used for send logs */
+ SET @currentYear = xtyear /* regularly used for copy right year */
+ SET @messageContext = _messagecontext /* used for displaying content specific to the location of display - preview screen; landing page; inbox; etc */
+ SET @jobID = jobid /* commonly used for send logs */
+ SET @viewEmailInBrowser = view_email_url
+ SET @defaultProfileCenter = profile_center_url
+ SET @defaultUnsubscribe = unsub_center_url
+ SET @addtionalAttribute = __AdditionalEmailAttribute1 /* used to bring in data defined in the properties pane of an email */
+
+ ]%%
+
+
+
+
+%%[ /* Comparison operator examples: */ 
+  
+  var @date1, @date2
+
+  SET @date1 = Format(Now(), MM/dd/yyyy) /* today's date */
+  SET @date2 = Format(01/01/2020, MM/dd/yyyy) 
+
+/* Equal (==) or Not Equal (!=) */
+
+  IF @date1 == @date2 Then  
+    SET @comparisonOutput1 = 'equal'
+  ElseIf @date1 != @date2 Then
+    SET @comparisonOutput1 = 'not equal'
+  EndIf
+
+  Output(Concat('<br>Result: ', @comparisonOutput1))
+  
+/* Greater Than (>) or Less Than (<) */
+
+  IF @date1 > @date2 Then  
+    SET @comparisonOutput2 = 'greater than'
+  ElseIf @date1 < @date2 Then
+    SET @comparisonOutput2 = 'less than'
+  EndIf
+
+  Output(Concat('<br>Result: ', @comparisonOutput2))
+  
+/* Greater Than or Equal To (>=) or Less Than or Equal To (<=) */
+
+  IF @date1 >= @date2 Then  
+    SET @comparisonOutput3 = 'greater than or equal to'
+  ElseIf @date1 <= @date2 Then
+    SET @comparisonOutput3 = 'less than or equal to'
+  EndIf
+
+  Output(Concat('<br>Result: ', @comparisonOutput3))
+
+]%% 
+
+
+
+
+%[ /* Logic operator examples: */ 
+
+  var @text1, @text2 
+
+  SET @text1 = 'This'
+  SET @text2 = 'That'
+
+/* AND operator */
+
+  If @text1 == 'This' AND @text2 == 'That' Then 
+
+    SET @logicOutput1 = Concat(@text1, ' and ', @text2)
+
+  EndIf
+
+  Output(Concat('<br>Result: ', @logicOutput1))
+
+
+
+/* OR operator */
+
+  If @text1 == 'This' OR @text1 == 'That' Then
+
+    SET @logicOutput2 = Concat(@text1, ' or ', @text2)
+
+  EndIf
+
+  Output(Concat('<br>Result: ', @logicOutput2))
+
+
+/* NOT operator */
+
+  If NOT Empty(@text1) Then
+
+    SET @logicOutput3 = Concat(@text1, ' or ', @text2)
+
+  EndIf
+
+  Output(Concat('<br>Result: ', @logicOutput3))
+
+]%%
+
+
+
+
+%%[ /* Data types and their delimiters */ 
+
+var @string, @date, @number1, @number2, @boolean1, @boolean2
+
+SET @string = 'String values are wrapped in quotes' 
+
+SET @date = Format(Now(), MM/dd/yyyy) 
+
+SET @number1 = 1
+SET @number2 = 1.6  
+
+SET @boolean1 = 'True'
+SET @boolean2 = 0 
+
+]%%
+
+
+
+
+%%[ /* Conditional Operators - Logic IF Statements */
+
+  IF /* open of conditional statement */
+    Length(@argument1) > 0 /* expression to be evaluated */
+  THEN /* do not forget to add your then clause */
+    @result /* out put if expression is found to be true */
+  ELSE 
+
+]%%
+
+
+
+
+%%[ /* Frequently used string function examples */ 
+
+/* Concatenate - this is the exact same format as VB or Excel */
+
+SET @concatString = Concat(@text1, @text2) /* output: "ThisThat" */
+
+
+/* Format - best to use to format currency or dates */
+
+SET @formatDate = Format(Now(), yyyyMMdd) /* output: 20200623 */
+SET @formatCurrency = Format(8.99, 'C', 'en-US') /* output: */
+
+]%%
+
+
+
+
+%%[ /* */ ]%%
+
+
+
+
+
+%%[ /* Math function examples */ 
+
+/* Addition */
+
+
+
+]%%
+
+
+
+
+%%[/* Content function samples */]%%
+
+%%=ContentBlockbyId("1234")=%% 

@@ -1,0 +1,66 @@
+%%[ /* AMPscript Init Block */
+
+SET @debug = 1
+
+/* set items needed for your template to function first */
+
+SET @email = [subscriberKey]
+
+IF Empty(@email) THEN
+  SET @email = AttributeValue(emailaddr)
+ENDIF
+
+SET @Preheader = 'preheader text'
+SET @subjectLine = 'subject line'
+
+/* bring in data specific to the email or campaign next */
+
+SET @subData = LookupRows('subscriberData','subscriberKey',@email)
+SET @subRowCount = RowCount(@subData)
+
+IF @subRowCount > 0 THEN
+  
+  SET @subDataRow = Row(@subData,1)
+  SET @rewardTier1 = Field(@subDataRow,'rewardTier1')
+  SET @rewardTier2 = Field(@subDataRow,'rewardTier2')
+
+  IF Empty(@rewardTier1) THEN
+
+    SET @displayPrompt1 = 'empty'
+
+  ELSEIF @rewardTier1 <= 9 THEN 
+
+    SET @displayPrompt1 = 'remainder'
+
+  ELSE
+
+    SET @displayPrompt1 = 'coupon'
+    SET @tier = 'rewardTier1'
+
+  ENDIF
+
+
+  IF Empty(@rewardTier2) THEN
+
+  SET @displayPrompt2 = 'empty'
+
+  ELSEIF @rewardTier2 <= 9 THEN 
+
+    SET @displayPrompt2 = 'remainder'
+
+  ELSE
+
+    SET @displayPrompt2 = 'coupon'
+    SET @tier = 'rewardTier2'
+
+  ENDIF
+
+
+ELSE 
+  
+  RaiseError(Concat('no data found for ', @email),'true')
+
+ENDIF
+
+
+]%%
